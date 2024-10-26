@@ -1,0 +1,30 @@
+# https://blog.giovannidemizio.eu/2021/05/24/how-to-set-user-and-group-in-docker-compose/
+# Resolução do problema da pasta root
+
+version: '3.9'
+
+services:
+  djangoapp:
+    container_name: djangoapp
+#    Isso resolve o erro de falta de permissão ao criar o container
+    user: "${UID}:${GID}"
+    build:
+      context: .
+#      dockerfile: ./Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./djangoapp:/djangoapp
+      - ./data/web/static:/data/web/static/
+      - ./data/web/media:/data/web/media/
+    env_file:
+      - ./dotenv_files/.env
+    depends_on:
+      - psql
+  psql:
+    container_name: psql
+    image: postgres:13-alpine
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data/
+    env_file:
+      - ./dotenv_files/.env

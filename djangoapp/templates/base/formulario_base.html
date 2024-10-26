@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+
+{% block body_base %}
+<div class="container-fluid">
+    <div class="row">
+        <form method="post" action="{% url caminho_url %}">
+            {% csrf_token %}
+            <div>
+                <div>
+                    <strong>{{ titulo_formulario }}</strong>
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                {% for field in form %}
+                    <div class="form-group">
+                        <div class="row py-3">
+                            {% if field.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    {{ field.label_tag }}
+                                    {{ field.errors }}
+                                    {{ field}}
+                                </div>
+                            {% else %}
+                                {{ field.label_tag }}
+                                {{ field }}
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+                
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-success col-12 mt-3">{{ nome_button }}</button>
+    
+        </form>
+    </div>
+
+</div>
+
+{% endblock body_base %}
+
+
