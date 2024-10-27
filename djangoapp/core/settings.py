@@ -65,7 +65,10 @@ ALLOWED_HOSTS = [
     if h.strip()
 ]
 
-
+CSRF_TRUSTED_ORIGINS = [
+    h.strip() for h in SECRETS['CSRF_TRUSTED_ORIGINS'].split(',')
+    if h.strip()
+]
 # Application definition
 
 INSTALLED_APPS = [

@@ -30,7 +30,10 @@
 				"ms-python.autopep8",
 				"exiasr.hadolint",
 				"batisteo.vscode-django",
-				"astrapios.pythonrepl"
+				"astrapios.pythonrepl",
+				"dracula-theme.theme-dracula",
+				"PKief.material-icon-theme",
+				"omthemes.omthemes"
 			]
 		}
 	},
