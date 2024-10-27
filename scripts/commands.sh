@@ -13,4 +13,4 @@ set -e
 python manage.py collectstatic --noinput
 python manage.py makemigrations --noinput
 python manage.py migrate --noinput
-gunicorn project.wsgi --bind=0.0.0.0:80
+gunicorn core.wsgi --bind=0.0.0.0:80
