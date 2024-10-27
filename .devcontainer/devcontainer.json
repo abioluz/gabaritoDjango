@@ -28,7 +28,9 @@
 				"ms-python.debugpy",
 				"oderwat.indent-rainbow",
 				"ms-python.autopep8",
-				"exiasr.hadolint"
+				"exiasr.hadolint",
+				"batisteo.vscode-django",
+				"astrapios.pythonrepl"
 			]
 		}
 	},

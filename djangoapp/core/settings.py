@@ -11,13 +11,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 
-
 import os.path
 import sys
 from pathlib import Path
 import base64
 from dotenv import dotenv_values
-
 
 
 ###############################################################################
@@ -26,7 +24,8 @@ from dotenv import dotenv_values
 
 SECRETS = dotenv_values('/run/secrets/env_projeto_django')
 if not SECRETS:
-    SECRETS = dotenv_values(f'{Path(__file__).resolve().parent.parent.parent}/dotenv_files/.env')
+    SECRETS = dotenv_values(
+        f'{Path(__file__).resolve().parent.parent.parent}/dotenv_files/.env')
     if not SECRETS:
         from io import StringIO
         SECRETS_VAR_ENV_BASE64 = base64.b64decode(
@@ -34,7 +33,6 @@ if not SECRETS:
         SECRETS = dotenv_values(stream=StringIO(SECRETS_VAR_ENV_BASE64))
         if not SECRETS:
             exit()
-
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,11 +49,19 @@ DATA_DIR = BASE_DIR.parent / 'staticfiles'
 SECRET_KEY = SECRETS['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(int(SECRETS['DEBUG']))
-TESTE = bool(int(SECRETS['TESTE']))
+if os.getenv('DEBUG', False):
+    DEBUG = bool(int(os.getenv('DEBUG', '0')))
+else:
+    DEBUG = bool(int(SECRETS['DEBUG']))
+
+
+if os.getenv('TESTE', False):
+    TESTE = bool(int(os.getenv('TESTE', '0')))
+else:
+    TESTE = bool(int(SECRETS['TESTE']))
 
 ALLOWED_HOSTS = [
-     h.strip() for h in SECRETS['ALLOWED_HOSTS'].split(',')
+    h.strip() for h in SECRETS['ALLOWED_HOSTS'].split(',')
     if h.strip()
 ]
 
@@ -69,8 +75,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "fontawesomefree",
     "home.apps.HomeConfig",
-    
+
 ]
 
 MIDDLEWARE = [
@@ -89,7 +96,9 @@ ROOT_URLCONF = "core.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR/'templates'],
+        "DIRS": [
+            BASE_DIR/'templates'
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -170,9 +179,10 @@ STATIC_ROOT = DATA_DIR / 'static'
 media_URL = "/media/"
 media_ROOT = DATA_DIR / 'static/media'
 
-STATICFILES_DIRS = [DATA_DIR,
-                    BASE_DIR / 'static',
-                    ]
+STATICFILES_DIRS = [
+    DATA_DIR,
+    BASE_DIR / 'static',
+]
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
